@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useRouter } from "vue-router"
 import SwitchRoles from "./components/SwitchRoles.vue"
 

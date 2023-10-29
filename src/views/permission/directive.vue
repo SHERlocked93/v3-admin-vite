@@ -1,9 +1,9 @@
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue"
 import { checkPermission } from "@/utils/permission" // checkPermission 权限判断函数
 import SwitchRoles from "./components/SwitchRoles.vue"
 
-/** key 是为了能每次切换权限的时候重新初始化指令 */
+/* key 是为了能每次切换权限的时候重新初始化指令 * */
 const key = ref(1)
 const handleRolesChange = () => {
   key.value++

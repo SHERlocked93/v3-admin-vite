@@ -1,18 +1,11 @@
-<script lang="ts" setup>
+<script setup>
 import { Expand, Fold } from "@element-plus/icons-vue"
 
-interface Props {
-  isActive?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  isActive: false
+const props = defineProps({
+  isActive: { type: Boolean, default: false }
 })
 
-/** Vue 3.3+ defineEmits 语法 */
-const emit = defineEmits<{
-  toggleClick: []
-}>()
+const emit = defineEmits(["toggleClick"])
 
 const toggleClick = () => {
   emit("toggleClick")

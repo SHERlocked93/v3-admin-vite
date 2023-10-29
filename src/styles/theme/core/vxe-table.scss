@@ -3,22 +3,22 @@
  * 在此查阅所有可自定义的变量：https://github.com/x-extends/vxe-table/blob/master/styles/variable.scss
  */
 
-/** font */
+/* font * */
 $vxe-font-color: $font-color;
 
-/** color */
+/* color * */
 $vxe-primary-color: $theme-color;
 $vxe-success-color: $theme-color;
 
-/** input/radio/checkbox */
+/* input/radio/checkbox * */
 $vxe-input-border-color: $theme-color;
 $vxe-input-disabled-color: $theme-color;
 $vxe-input-disabled-background-color: lighten($theme-bg-color, 12%);
 
-/** popup */
+/* popup * */
 $vxe-table-popup-border-color: $border-color;
 
-/** table */
+/* table * */
 $vxe-table-font-color: $font-color;
 $vxe-table-border-color: $border-color;
 $vxe-table-header-background-color: lighten($theme-bg-color, 8%);
@@ -28,30 +28,30 @@ $vxe-table-row-current-background-color: lighten($theme-bg-color, 8%);
 $vxe-table-row-hover-current-background-color: lighten($theme-bg-color, 8%);
 $vxe-table-checkbox-range-background-color: lighten($theme-bg-color, 8%);
 
-/** toolbar */
+/* toolbar * */
 $vxe-toolbar-background-color: lighten($theme-bg-color, 4%);
 $vxe-toolbar-custom-active-background-color: lighten($theme-bg-color, 16%);
 $vxe-toolbar-panel-background-color: lighten($theme-bg-color, 4%);
 
-/** pager */
+/* pager * */
 $vxe-pager-background-color: lighten($theme-bg-color, 4%);
 
-/** modal */
+/* modal * */
 $vxe-modal-header-background-color: lighten($theme-bg-color, 4%);
 $vxe-modal-body-background-color: lighten($theme-bg-color, 4%);
 $vxe-modal-border-color: $border-color;
 
-/** button */
+/* button * */
 $vxe-button-default-background-color: lighten($theme-bg-color, 8%);
 
-/** input */
+/* input * */
 $vxe-input-background-color: lighten($theme-bg-color, 4%);
 $vxe-input-panel-background-color: $vxe-input-background-color;
 
-/** form */
+/* form * */
 $vxe-form-background-color: lighten($theme-bg-color, 4%);
 
-/** select */
+/* select * */
 $vxe-select-option-hover-background-color: lighten($theme-bg-color, 8%);
 $vxe-select-panel-background-color: lighten($theme-bg-color, 4%);
 

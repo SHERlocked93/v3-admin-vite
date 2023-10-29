@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/store/modules/settings"
 import { AppMain, NavigationBar, TagsView, Logo } from "./components"

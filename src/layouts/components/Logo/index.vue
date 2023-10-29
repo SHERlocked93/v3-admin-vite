@@ -1,16 +1,12 @@
-<script lang="ts" setup>
+<script setup>
 import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/store/modules/settings"
 import logo from "@/assets/layouts/logo.png?url"
 import logoText1 from "@/assets/layouts/logo-text-1.png?url"
 import logoText2 from "@/assets/layouts/logo-text-2.png?url"
 
-interface Props {
-  collapse?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  collapse: true
+const props = defineProps({
+  collapse: { type: Boolean, default: true }
 })
 
 const settingsStore = useSettingsStore()

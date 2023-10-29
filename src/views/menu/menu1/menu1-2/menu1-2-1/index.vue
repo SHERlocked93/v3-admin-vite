@@ -1,9 +1,7 @@
-<script lang="ts" setup>
+<script setup>
 import { ref } from "vue"
 
-defineOptions({
-  name: "Menu1-2-1"
-})
+defineOptions({ name: "Menu1-2-1" })
 
 const text = ref("")
 </script>

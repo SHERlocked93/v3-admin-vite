@@ -1,6 +1,6 @@
-<script lang="ts" setup>
-import { useFullscreenLoading } from "@/hooks/useFullscreenLoading"
-import { getSuccessApi, getErrorApi } from "@/api/hook-demo/use-fullscreen-loading"
+<script setup>
+import { useFullscreenLoading } from "hooks/useFullscreenLoading"
+import { getErrorApi, getSuccessApi } from "api/hook-demo/use-fullscreen-loading"
 import { ElMessage } from "element-plus"
 
 const svg = `
@@ -32,7 +32,7 @@ const querySuccess = async () => {
 const queryError = async () => {
   try {
     await useFullscreenLoading(getErrorApi, options)()
-  } catch (err: any) {
+  } catch (err) {
     ElMessage.error(err.message)
   }
 }

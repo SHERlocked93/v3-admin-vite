@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
 import { storeToRefs } from "pinia"
 import { useSettingsStore } from "@/store/modules/settings"

@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useTagsViewStore } from "@/store/modules/tags-view"
 import { useSettingsStore } from "@/store/modules/settings"
 import Footer from "./Footer/index.vue"

@@ -1,7 +1,7 @@
-<script lang="ts" setup>
+<script setup>
 import { getCurrentInstance, onMounted, ref, watch } from "vue"
-import { type RouteLocationNormalizedLoaded, type RouteRecordRaw, RouterLink, useRoute, useRouter } from "vue-router"
-import { type TagView, useTagsViewStore } from "@/store/modules/tags-view"
+import { RouterLink, useRoute, useRouter } from "vue-router"
+import { useTagsViewStore } from "@/store/modules/tags-view"
 import { usePermissionStore } from "@/store/modules/permission"
 import { useRouteListener } from "@/hooks/useRouteListener"
 import path from "path-browserify"
@@ -15,33 +15,33 @@ const tagsViewStore = useTagsViewStore()
 const permissionStore = usePermissionStore()
 const { listenerRouteChange } = useRouteListener()
 
-/** 标签页组件元素的引用数组 */
-const tagRefs = ref<InstanceType<typeof RouterLink>[]>([])
+/* 标签页组件元素的引用数组 * */
+const tagRefs = ref([])
 
-/** 右键菜单的状态 */
+/* 右键菜单的状态 * */
 const visible = ref(false)
-/** 右键菜单的 top 位置 */
+/* 右键菜单的 top 位置 * */
 const top = ref(0)
-/** 右键菜单的 left 位置 */
+/* 右键菜单的 left 位置 * */
 const left = ref(0)
-/** 当前正在右键操作的标签页 */
-const selectedTag = ref<TagView>({})
-/** 固定的标签页 */
-let affixTags: TagView[] = []
+/* 当前正在右键操作的标签页 * */
+const selectedTag = ref({})
+/* 固定的标签页 * */
+let affixTags = []
 
-/** 判断标签页是否激活 */
-const isActive = (tag: TagView) => {
+/* 判断标签页是否激活 * */
+const isActive = (tag) => {
   return tag.path === route.path
 }
 
-/** 判断标签页是否固定 */
-const isAffix = (tag: TagView) => {
+/* 判断标签页是否固定 * */
+const isAffix = (tag) => {
   return tag.meta?.affix
 }
 
-/** 筛选出固定标签页 */
-const filterAffixTags = (routes: RouteRecordRaw[], basePath = "/") => {
-  const tags: TagView[] = []
+/* 筛选出固定标签页 * */
+const filterAffixTags = (routes, basePath = "/") => {
+  const tags = []
   routes.forEach((route) => {
     if (isAffix(route)) {
       const tagPath = path.resolve(basePath, route.path)
@@ -60,7 +60,7 @@ const filterAffixTags = (routes: RouteRecordRaw[], basePath = "/") => {
   return tags
 }
 
-/** 初始化标签页 */
+/* 初始化标签页 * */
 const initTags = () => {
   affixTags = filterAffixTags(permissionStore.routes)
   for (const tag of affixTags) {
@@ -69,30 +69,30 @@ const initTags = () => {
   }
 }
 
-/** 添加标签页 */
-const addTags = (route: RouteLocationNormalizedLoaded) => {
+/* 添加标签页 * */
+const addTags = (route) => {
   if (route.name) {
     tagsViewStore.addVisitedView(route)
     tagsViewStore.addCachedView(route)
   }
 }
 
-/** 刷新当前正在右键操作的标签页 */
-const refreshSelectedTag = (view: TagView) => {
+/* 刷新当前正在右键操作的标签页 * */
+const refreshSelectedTag = (view) => {
   tagsViewStore.delCachedView(view)
   router.replace({ path: "/redirect" + view.path, query: view.query })
 }
 
-/** 关闭当前正在右键操作的标签页 */
-const closeSelectedTag = (view: TagView) => {
+/* 关闭当前正在右键操作的标签页 * */
+const closeSelectedTag = (view) => {
   tagsViewStore.delVisitedView(view)
   tagsViewStore.delCachedView(view)
   isActive(view) && toLastView(tagsViewStore.visitedViews, view)
 }
 
-/** 关闭其他标签页 */
+/* 关闭其他标签页 * */
 const closeOthersTags = () => {
-  const fullPath = selectedTag.value.fullPath
+  const fullPath = selectedTag.value?.fullPath
   if (fullPath !== route.path && fullPath !== undefined) {
     router.push(fullPath)
   }
@@ -100,16 +100,16 @@ const closeOthersTags = () => {
   tagsViewStore.delOthersCachedViews(selectedTag.value)
 }
 
-/** 关闭所有标签页 */
-const closeAllTags = (view: TagView) => {
+/* 关闭所有标签页 * */
+const closeAllTags = (view) => {
   tagsViewStore.delAllVisitedViews()
   tagsViewStore.delAllCachedViews()
   if (affixTags.some((tag) => tag.path === route.path)) return
   toLastView(tagsViewStore.visitedViews, view)
 }
 
-/** 跳转到最后一个标签页 */
-const toLastView = (visitedViews: TagView[], view: TagView) => {
+/* 跳转到最后一个标签页 * */
+const toLastView = (visitedViews, view) => {
   const latestView = visitedViews.slice(-1)[0]
   const fullPath = latestView?.fullPath
   if (fullPath !== undefined) {
@@ -125,13 +125,13 @@ const toLastView = (visitedViews: TagView[], view: TagView) => {
   }
 }
 
-/** 打开右键菜单面板 */
-const openMenu = (tag: TagView, e: MouseEvent) => {
+/* 打开右键菜单面板 * */
+const openMenu = (tag, e) => {
   const menuMinWidth = 105
   // 当前组件距离浏览器左端的距离
-  const offsetLeft = instance!.proxy!.$el.getBoundingClientRect().left
+  const offsetLeft = instance?.proxy?.$el.getBoundingClientRect().left
   // 当前组件宽度
-  const offsetWidth = instance!.proxy!.$el.offsetWidth
+  const offsetWidth = instance?.proxy?.$el.offsetWidth
   // 面板的最大左边距
   const maxLeft = offsetWidth - menuMinWidth
   // 面板距离鼠标指针的距离
@@ -144,7 +144,7 @@ const openMenu = (tag: TagView, e: MouseEvent) => {
   selectedTag.value = tag
 }
 
-/** 关闭右键菜单面板 */
+/* 关闭右键菜单面板 * */
 const closeMenu = () => {
   visible.value = false
 }
@@ -155,7 +155,7 @@ watch(visible, (value) => {
 
 onMounted(() => {
   initTags()
-  /** 监听路由变化 */
+  /* 监听路由变化 * */
   listenerRouteChange(async (route) => {
     addTags(route)
   }, true)

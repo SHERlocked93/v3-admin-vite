@@ -1,6 +1,6 @@
-<script lang="ts" setup>
+<script setup>
 import { computed, ref, shallowRef } from "vue"
-import { type RouteRecordName, type RouteRecordRaw, useRouter } from "vue-router"
+import { useRouter } from "vue-router"
 import { useAppStore } from "@/store/modules/app"
 import { usePermissionStore } from "@/store/modules/permission"
 import SearchResult from "./SearchResult.vue"
@@ -10,44 +10,38 @@ import { cloneDeep, debounce } from "lodash-es"
 import { DeviceEnum } from "@/constants/app-key"
 import { isExternal } from "@/utils/validate"
 
-interface Props {
-  /** 控制 modal 显隐 */
-  modelValue: boolean
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-  "update:modelValue": [boolean]
-}>()
+const props = defineProps({ modelValue: { type: Boolean } }) /* 控制 modal 显隐 * */
+const emit = defineEmits(["update:modelValue"])
 
 const appStore = useAppStore()
 const router = useRouter()
 
-const inputRef = ref<HTMLInputElement | null>(null)
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar> | null>(null)
-const searchResultRef = ref<InstanceType<typeof SearchResult> | null>(null)
+const inputRef = ref(null)
+const scrollbarRef = ref(null)
+const searchResultRef = ref(null)
 
-const keyword = ref<string>("")
-const resultList = shallowRef<RouteRecordRaw[]>([])
-const activeRouteName = ref<RouteRecordName | undefined>(undefined)
-/** 是否按下了上键或下键（用于解决和 mouseenter 事件的冲突） */
-const isPressUpOrDown = ref<boolean>(false)
+const keyword = ref("")
+const resultList = shallowRef([])
+const activeRouteName = ref(undefined)
 
-/** 控制搜索对话框宽度 */
+/* 是否按下了上键或下键（用于解决和 mouseenter 事件的冲突） * */
+const isPressUpOrDown = ref(false)
+
+/* 控制搜索对话框宽度 * */
 const modalWidth = computed(() => (appStore.device === DeviceEnum.Mobile ? "80vw" : "40vw"))
-/** 控制搜索对话框显隐 */
+/* 控制搜索对话框显隐 * */
 const modalVisible = computed({
   get() {
     return props.modelValue
   },
-  set(value: boolean) {
+  set(value) {
     emit("update:modelValue", value)
   }
 })
-/** 树形菜单 */
+/* 树形菜单 * */
 const menusData = computed(() => cloneDeep(usePermissionStore().routes))
 
-/** 搜索（防抖） */
+/* 搜索（防抖） * */
 const handleSearch = debounce(() => {
   const flatMenusData = flatTree(menusData.value)
   resultList.value = flatMenusData.filter((menu) =>
@@ -58,8 +52,8 @@ const handleSearch = debounce(() => {
   activeRouteName.value = length > 0 ? resultList.value[0].name : undefined
 }, 500)
 
-/** 将树形菜单扁平化为一维数组，用于菜单搜索 */
-const flatTree = (arr: RouteRecordRaw[], result: RouteRecordRaw[] = []) => {
+/* 将树形菜单扁平化为一维数组，用于菜单搜索 * */
+const flatTree = (arr, result = []) => {
   arr.forEach((item) => {
     result.push(item)
     item.children && flatTree(item.children, result)
@@ -67,7 +61,7 @@ const flatTree = (arr: RouteRecordRaw[], result: RouteRecordRaw[] = []) => {
   return result
 }
 
-/** 关闭搜索对话框 */
+/* 关闭搜索对话框 * */
 const handleClose = () => {
   modalVisible.value = false
   // 延时处理防止用户看到重置数据的操作
@@ -77,15 +71,15 @@ const handleClose = () => {
   }, 200)
 }
 
-/** 根据下标位置进行滚动 */
-const scrollTo = (index: number) => {
+/* 根据下标位置进行滚动 * */
+const scrollTo = (index) => {
   if (!searchResultRef.value) return
   const scrollTop = searchResultRef.value.getScrollTop(index)
   // 手动控制 el-scrollbar 滚动条滚动，设置滚动条到顶部的距离
   scrollbarRef.value?.setScrollTop(scrollTop)
 }
 
-/** 键盘上键 */
+/* 键盘上键 * */
 const handleUp = () => {
   isPressUpOrDown.value = true
   const { length } = resultList.value
@@ -110,7 +104,7 @@ const handleUp = () => {
   }
 }
 
-/** 键盘下键 */
+/* 键盘下键 * */
 const handleDown = () => {
   isPressUpOrDown.value = true
   const { length } = resultList.value
@@ -135,7 +129,7 @@ const handleDown = () => {
   }
 }
 
-/** 键盘回车键 */
+/* 键盘回车键 * */
 const handleEnter = () => {
   const { length } = resultList.value
   if (length === 0) return
@@ -158,7 +152,7 @@ const handleEnter = () => {
   handleClose()
 }
 
-/** 释放上键或下键 */
+/* 释放上键或下键 * */
 const handleReleaseUpOrDown = () => {
   isPressUpOrDown.value = false
 }

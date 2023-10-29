@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { ref, nextTick } from "vue"
 import { RouterLink, useRoute } from "vue-router"
 import { useSettingsStore } from "@/store/modules/settings"
@@ -7,33 +7,31 @@ import Screenfull from "@/components/Screenfull/index.vue"
 import { ElScrollbar } from "element-plus"
 import { ArrowLeft, ArrowRight } from "@element-plus/icons-vue"
 
-interface Props {
-  tagRefs: InstanceType<typeof RouterLink>[]
-}
-
-const props = defineProps<Props>()
+const props = defineProps({
+  tagRefs: { type: Array }
+})
 
 const route = useRoute()
 const settingsStore = useSettingsStore()
 const { listenerRouteChange } = useRouteListener()
 
-/** 滚动条组件元素的引用 */
-const scrollbarRef = ref<InstanceType<typeof ElScrollbar>>()
-/** 滚动条内容元素的引用 */
-const scrollbarContentRef = ref<HTMLDivElement>()
+/* 滚动条组件元素的引用 * */
+const scrollbarRef = ref()
+/* 滚动条内容元素的引用 * */
+const scrollbarContentRef = ref()
 
-/** 当前滚动条距离左边的距离 */
+/* 当前滚动条距离左边的距离 * */
 let currentScrollLeft = 0
-/** 每次滚动距离 */
+/* 每次滚动距离 * */
 const translateDistance = 200
 
-/** 滚动时触发 */
-const scroll = ({ scrollLeft }: { scrollLeft: number }) => {
+/* 滚动时触发 * */
+const scroll = ({ scrollLeft }) => {
   currentScrollLeft = scrollLeft
 }
 
-/** 鼠标滚轮滚动时触发 */
-const wheelScroll = ({ deltaY }: WheelEvent) => {
+/* 鼠标滚轮滚动时触发 * */
+const wheelScroll = ({ deltaY }) => {
   if (/^-/.test(deltaY.toString())) {
     scrollTo("left")
   } else {
@@ -41,20 +39,20 @@ const wheelScroll = ({ deltaY }: WheelEvent) => {
   }
 }
 
-/** 获取可能需要的宽度 */
+/* 获取可能需要的宽度 * */
 const getWidth = () => {
-  /** 可滚动内容的长度 */
-  const scrollbarContentRefWidth = scrollbarContentRef.value!.clientWidth
-  /** 滚动可视区宽度 */
-  const scrollbarRefWidth = scrollbarRef.value!.wrapRef!.clientWidth
-  /** 最后剩余可滚动的宽度 */
+  /* 可滚动内容的长度 * */
+  const scrollbarContentRefWidth = scrollbarContentRef.value?.clientWidth
+  /* 滚动可视区宽度 * */
+  const scrollbarRefWidth = scrollbarRef.value?.wrapRef?.clientWidth
+  /* 最后剩余可滚动的宽度 * */
   const lastDistance = scrollbarContentRefWidth - scrollbarRefWidth - currentScrollLeft
 
   return { scrollbarContentRefWidth, scrollbarRefWidth, lastDistance }
 }
 
-/** 左右滚动 */
-const scrollTo = (direction: "left" | "right", distance: number = translateDistance) => {
+/* 左右滚动 * */
+const scrollTo = (direction, distance = translateDistance) => {
   let scrollLeft = 0
   const { scrollbarContentRefWidth, scrollbarRefWidth, lastDistance } = getWidth()
   // 没有横向滚动条，直接结束
@@ -64,17 +62,15 @@ const scrollTo = (direction: "left" | "right", distance: number = translateDista
   } else {
     scrollLeft = Math.min(currentScrollLeft + distance, currentScrollLeft + lastDistance)
   }
-  scrollbarRef.value!.setScrollLeft(scrollLeft)
+  scrollbarRef.value?.setScrollLeft(scrollLeft)
 }
 
-/** 移动到目标位置 */
+/* 移动到目标位置 * */
 const moveTo = () => {
   const tagRefs = props.tagRefs
   for (let i = 0; i < tagRefs.length; i++) {
-    // @ts-ignore
     if (route.path === tagRefs[i].$props.to.path) {
-      // @ts-ignore
-      const el: HTMLElement = tagRefs[i].$el
+      const el = tagRefs[i].$el
       const offsetWidth = el.offsetWidth
       const offsetLeft = el.offsetLeft
       const { scrollbarRefWidth } = getWidth()
@@ -95,7 +91,7 @@ const moveTo = () => {
   }
 }
 
-/** 监听路由变化，移动到目标位置 */
+/* 监听路由变化，移动到目标位置 * */
 listenerRouteChange(() => {
   nextTick(moveTo)
 })

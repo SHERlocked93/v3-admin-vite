@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()

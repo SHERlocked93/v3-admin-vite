@@ -1,11 +1,7 @@
-<script lang="ts" setup>
-import { type ListItem } from "./data"
-
-interface Props {
-  list: ListItem[]
-}
-
-const props = defineProps<Props>()
+<script setup>
+const props = defineProps({
+  list: { type: Array }
+})
 </script>
 
 <template>
@@ -21,7 +17,7 @@ const props = defineProps<Props>()
           <div class="card-time">{{ item.datetime }}</div>
         </div>
         <div v-if="item.avatar" class="card-avatar">
-          <img :src="item.avatar" width="34" />
+          <img :src="item.avatar" width="34" alt="" />
         </div>
       </div>
     </template>

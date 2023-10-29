@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useTheme } from "@/hooks/useTheme"
 import { MagicStick } from "@element-plus/icons-vue"
 

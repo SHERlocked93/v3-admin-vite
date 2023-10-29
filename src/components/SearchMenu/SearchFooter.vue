@@ -1,13 +1,11 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
 import { useAppStore } from "@/store/modules/app"
 import { DeviceEnum } from "@/constants/app-key"
 
-interface Props {
-  total: number
-}
-
-const props = defineProps<Props>()
+const props = defineProps({
+  total: { type: Number }
+})
 
 const appStore = useAppStore()
 const isMobile = computed(() => appStore.device === DeviceEnum.Mobile)

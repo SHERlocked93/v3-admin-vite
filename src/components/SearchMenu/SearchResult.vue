@@ -1,33 +1,28 @@
-<script lang="ts" setup>
+<script setup>
 import { computed, getCurrentInstance, onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue"
-import { type RouteRecordName, type RouteRecordRaw } from "vue-router"
 
-interface Props {
-  modelValue: RouteRecordName | undefined
-  list: RouteRecordRaw[]
-  isPressUpOrDown: boolean
-}
-
-const props = defineProps<Props>()
-const emit = defineEmits<{
-  "update:modelValue": [RouteRecordName | undefined]
-}>()
+const props = defineProps({
+  modelValue: { type: String, default: "" },
+  list: { type: Array },
+  isPressUpOrDown: { type: Boolean }
+})
+const emit = defineEmits(["update:modelValue"])
 
 const instance = getCurrentInstance()
-const scrollbarHeight = ref<number>(0)
+const scrollbarHeight = ref(0)
 
-/** 选中的菜单 */
+/* 选中的菜单 * */
 const activeRouteName = computed({
   get() {
     return props.modelValue
   },
-  set(value: RouteRecordName | undefined) {
+  set(value) {
     emit("update:modelValue", value)
   }
 })
 
-/** 菜单的样式 */
-const itemStyle = (item: RouteRecordRaw) => {
+/* 菜单的样式 * */
+const itemStyle = (item) => {
   const flag = item.name === activeRouteName.value
   return {
     background: flag ? "var(--el-color-primary)" : "",
@@ -35,39 +30,39 @@ const itemStyle = (item: RouteRecordRaw) => {
   }
 }
 
-/** 鼠标移入 */
-const handleMouseenter = (item: RouteRecordRaw) => {
+/* 鼠标移入 * */
+const handleMouseenter = (item) => {
   // 如果上键或下键与 mouseenter 事件同时生效，则以上下键为准，不执行该函数的赋值逻辑
   if (props.isPressUpOrDown) return
   activeRouteName.value = item.name
 }
 
-/** 计算滚动可视区高度 */
+/* 计算滚动可视区高度 * */
 const getScrollbarHeight = () => {
   // el-scrollbar max-height="40vh"
   scrollbarHeight.value = Number((window.innerHeight * 0.4).toFixed(1))
 }
 
-/** 根据下标计算到顶部的距离 */
-const getScrollTop = (index: number) => {
-  const currentInstance = instance?.proxy?.$refs[`resultItemRef${index}`] as HTMLDivElement[]
+/* 根据下标计算到顶部的距离 * */
+const getScrollTop = (index) => {
+  const currentInstance = instance?.proxy?.$refs[`resultItemRef${index}`]
   if (!currentInstance) return 0
   const currentRef = currentInstance[0]
   const scrollTop = currentRef.offsetTop + 128 // 128 = 两个 result-item （56 + 56 = 112）高度与上下 margin（8 + 8 = 16）大小之和
   return scrollTop > scrollbarHeight.value ? scrollTop - scrollbarHeight.value : 0
 }
 
-/** 在组件挂载前添加窗口大小变化事件监听器 */
+/* 在组件挂载前添加窗口大小变化事件监听器 * */
 onBeforeMount(() => {
   window.addEventListener("resize", getScrollbarHeight)
 })
 
-/** 在组件挂载时立即计算滚动可视区高度 */
+/* 在组件挂载时立即计算滚动可视区高度 * */
 onMounted(() => {
   getScrollbarHeight()
 })
 
-/** 在组件卸载前移除窗口大小变化事件监听器 */
+/* 在组件卸载前移除窗口大小变化事件监听器 * */
 onBeforeUnmount(() => {
   window.removeEventListener("resize", getScrollbarHeight)
 })

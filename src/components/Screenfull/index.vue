@@ -1,28 +1,17 @@
-<script lang="ts" setup>
+<script setup>
 import { computed, ref, watchEffect } from "vue"
 import { ElMessage } from "element-plus"
 import screenfull from "screenfull"
 
-interface Props {
-  /** 全屏的元素，默认是 html */
-  element?: string
-  /** 打开全屏提示语 */
-  openTips?: string
-  /** 关闭全屏提示语 */
-  exitTips?: string
-  /** 是否只针对内容区 */
-  content?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  element: "html",
-  openTips: "全屏",
-  exitTips: "退出全屏",
-  content: false
+const props = defineProps({
+  element: { type: String, default: "html" } /* 全屏的元素，默认是 html * */,
+  openTips: { type: String, default: "全屏" } /* 打开全屏提示语 * */,
+  exitTips: { type: String, default: "退出全屏" } /* 关闭全屏提示语 * */,
+  content: { type: Boolean, default: false } /* 是否只针对内容区 * */
 })
 
 //#region 全屏
-const isFullscreen = ref<boolean>(false)
+const isFullscreen = ref(false)
 const fullscreenTips = computed(() => {
   return isFullscreen.value ? props.exitTips : props.openTips
 })
@@ -47,7 +36,7 @@ watchEffect((onCleanup) => {
 //#endregion
 
 //#region 内容区
-const isContentLarge = ref<boolean>(false)
+const isContentLarge = ref(false)
 const contentLargeTips = computed(() => {
   return isContentLarge.value ? "内容区复原" : "内容区放大"
 })

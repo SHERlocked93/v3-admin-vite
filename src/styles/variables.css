@@ -1,13 +1,13 @@
-/** 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 */
+/* 全局 CSS 变量，这种变量不仅可以在 CSS 和 SCSS 中使用，还可以导入到 JS 中使用 * */
 :root {
-  /** 全局背景色 */
+  /* 全局背景色 * */
   --v3-body-bg-color: #f2f3f5;
-  /** Header 区域 = NavigationBar 组件 + TagsView 组件 */
+  /* Header 区域 = NavigationBar 组件 + TagsView 组件 * */
   --v3-header-height: calc(var(--v3-navigationbar-height) + var(--v3-tagsview-height));
   --v3-header-bg-color: #ffffff;
-  /** NavigationBar 组件 */
+  /* NavigationBar 组件 * */
   --v3-navigationbar-height: 50px;
-  /** Sidebar 组件（左侧模式全部生效、顶部模式全部不生效、混合模式非颜色部分生效） */
+  /* Sidebar 组件（左侧模式全部生效、顶部模式全部不生效、混合模式非颜色部分生效） * */
   --v3-sidebar-width: 220px;
   --v3-sidebar-hide-width: 58px;
   --v3-sidebar-menu-item-height: 60px;
@@ -16,7 +16,7 @@
   --v3-sidebar-menu-hover-bg-color: #409eff10;
   --v3-sidebar-menu-text-color: #c0c4cc;
   --v3-sidebar-menu-active-text-color: #ffffff;
-  /** TagsView 组件 */
+  /* TagsView 组件 * */
   --v3-tagsview-height: 34px;
   --v3-tagsview-tag-text-color: #495060;
   --v3-tagsview-tag-active-text-color: #ffffff;
@@ -28,17 +28,17 @@
   --v3-tagsview-tag-active-before-color: #ffffff;
   --v3-tagsview-tag-icon-hover-bg-color: #00000030;
   --v3-tagsview-tag-icon-hover-color: #ffffff;
-  /** RightPanel 组件  */
+  /* RightPanel 组件  * */
   --v3-rightpanel-button-bg-color: #001428;
 }
 
-/** 内容区放大时，将不需要的组件隐藏 */
+/* 内容区放大时，将不需要的组件隐藏 * */
 body.content-large {
-  /** Header 区域 = TagsView 组件 */
+  /* Header 区域 = TagsView 组件 * */
   --v3-header-height: var(--v3-tagsview-height);
-  /** NavigationBar 组件 */
+  /* NavigationBar 组件 * */
   --v3-navigationbar-height: 0px;
-  /** Sidebar 组件 */
+  /* Sidebar 组件 * */
   --v3-sidebar-width: 0px;
   --v3-sidebar-hide-width: 0px;
 }

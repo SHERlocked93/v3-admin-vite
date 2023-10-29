@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
 import { useRouter } from "vue-router"
 import { storeToRefs } from "pinia"
@@ -26,12 +26,12 @@ const { layoutMode, showNotify, showThemeSwitch, showScreenfull, showSearchMenu 
 const isTop = computed(() => layoutMode.value === "top")
 const isMobile = computed(() => device.value === DeviceEnum.Mobile)
 
-/** 切换侧边栏 */
+/* 切换侧边栏 * *
 const toggleSidebar = () => {
   appStore.toggleSidebar(false)
 }
 
-/** 登出 */
+/* 登出 * */
 const logout = () => {
   userStore.logout()
   router.push("/login")
@@ -55,10 +55,10 @@ const logout = () => {
         </div>
         <template #dropdown>
           <el-dropdown-menu>
-            <a target="_blank" href="https://github.com/un-pany/v3-admin-vite">
+            <a target="_blank" href="https://www.baidu.com">
               <el-dropdown-item>GitHub</el-dropdown-item>
             </a>
-            <a target="_blank" href="https://gitee.com/un-pany/v3-admin-vite">
+            <a target="_blank" href="https://baidu.com">
               <el-dropdown-item>Gitee</el-dropdown-item>
             </a>
             <el-dropdown-item divided @click="logout">

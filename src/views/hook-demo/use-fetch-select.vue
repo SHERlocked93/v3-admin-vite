@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { useFetchSelect } from "@/hooks/useFetchSelect"
 import { getSelectDataApi } from "@/api/hook-demo/use-fetch-select"
 

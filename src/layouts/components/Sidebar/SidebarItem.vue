@@ -1,39 +1,31 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
-import { type RouteRecordRaw } from "vue-router"
 import SidebarItemLink from "./SidebarItemLink.vue"
 import { isExternal } from "@/utils/validate"
 import path from "path-browserify"
 
-interface Props {
-  item: RouteRecordRaw
-  isCollapse?: boolean
-  isTop?: boolean
-  isFirstLevel?: boolean
-  basePath?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  isCollapse: false,
-  isTop: false,
-  isFirstLevel: true,
-  basePath: ""
+const props = defineProps({
+  item: { required: true },
+  isCollapse: { type: Boolean, default: false },
+  isTop: { type: Boolean, default: false },
+  isFirstLevel: { type: Boolean, default: true },
+  basePath: { type: String, default: "" }
 })
 
-/** 是否始终显示根菜单 */
-const alwaysShowRootMenu = computed(() => props.item.meta?.alwaysShow)
+/* 是否始终显示根菜单 * */
+const alwaysShowRootMenu = computed(() => props.item?.meta?.alwaysShow)
 
-/** 显示的子菜单 */
+/* 显示的子菜单 * */
 const showingChildren = computed(() => {
-  return props.item.children?.filter((child) => !child.meta?.hidden) ?? []
+  return props.item?.children?.filter((child) => !child.meta?.hidden) ?? []
 })
 
-/** 显示的子菜单数量 */
+/* 显示的子菜单数量 * */
 const showingChildNumber = computed(() => {
   return showingChildren.value.length
 })
 
-/** 唯一的子菜单项 */
+/* 唯一的子菜单项 * */
 const theOnlyOneChild = computed(() => {
   const number = showingChildNumber.value
   switch (true) {
@@ -46,8 +38,8 @@ const theOnlyOneChild = computed(() => {
   }
 })
 
-/** 解析路径 */
-const resolvePath = (routePath: string) => {
+/* 解析路径 * */
+const resolvePath = (routePath) => {
   switch (true) {
     case isExternal(routePath):
       return routePath

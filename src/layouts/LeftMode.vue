@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
 import { storeToRefs } from "pinia"
 import { useAppStore } from "@/store/modules/app"
@@ -11,7 +11,7 @@ const settingsStore = useSettingsStore()
 
 const { showTagsView, fixedHeader } = storeToRefs(settingsStore)
 
-/** 定义计算属性 layoutClasses，用于控制布局的类名 */
+/* 定义计算属性 layoutClasses，用于控制布局的类名 * */
 const layoutClasses = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened,
@@ -21,7 +21,7 @@ const layoutClasses = computed(() => {
   }
 })
 
-/** 用于处理点击 mobile 端侧边栏遮罩层的事件 */
+/* 用于处理点击 mobile 端侧边栏遮罩层的事件 * */
 const handleClickOutside = () => {
   appStore.closeSidebar(false)
 }

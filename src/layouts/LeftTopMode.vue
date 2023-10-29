@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script setup>
 import { computed } from "vue"
 import { storeToRefs } from "pinia"
 import { useAppStore } from "@/store/modules/app"
@@ -10,7 +10,7 @@ const settingsStore = useSettingsStore()
 
 const { showTagsView, showLogo } = storeToRefs(settingsStore)
 
-/** 定义计算属性 layoutClasses，用于控制布局的类名 */
+/* 定义计算属性 layoutClasses，用于控制布局的类名 * */
 const layoutClasses = computed(() => {
   return {
     hideSidebar: !appStore.sidebar.opened
